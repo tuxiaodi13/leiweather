@@ -100,7 +100,7 @@ public class ChooseAreaActivity extends Activity {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            titleText.setText("CHINA");
+            titleText.setText("ÖÐ¹ú");
             currentLevel=LEVEL_PROVINCE;
         }else{
             queryFromServer(null,"Province");
@@ -204,6 +204,10 @@ public class ChooseAreaActivity extends Activity {
         }else if(currentLevel==LEVEL_CITY){
             queryProvinces();
         }else{
+            if(isFromWeatherActivity){
+                Intent intent=new Intent(this,WeatherActivity.class);
+                startActivity(intent);
+            }
             finish();
         }
     }

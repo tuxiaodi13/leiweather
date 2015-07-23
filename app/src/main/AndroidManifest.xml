@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="bai.leiweather.activity.ChooseAreaActivity"
+            android:name="bai.leiweather.activity.LoginActivity"
             android:label="小蕾天气">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,6 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.WeatherActivity">
+        </activity>
+        <activity android:name=".activity.ChooseAreaActivity">
         </activity>
         <service android:name=".service.AutoUpdateWeather">
         </service>
