@@ -27,10 +27,10 @@ public class LeiWeatherOpenHelper extends SQLiteOpenHelper {
      *CountyΩ®±Ì”Ôæ‰
      */
     public static final String CREATE_COUNTY="Create table County("
-            + "id integer primary key autoincerment,"
-            + "county_name text"
-            + "county_code text"
-            + "city_id integer";
+            + "id integer primary key autoincrement,"
+            + "county_name text,"
+            + "county_code text,"
+            + "city_id integer)";
     public LeiWeatherOpenHelper(Context context,String name, SQLiteDatabase.CursorFactory
                                 factory,int version) {
         super(context,name,factory,version);

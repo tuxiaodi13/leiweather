@@ -34,7 +34,7 @@ public class LeiWeatherDB {
     /*
      *获取LeiWeatherDB的实例
      */
-    public synchronized LeiWeatherDB getInstance(Context context){
+    public synchronized static LeiWeatherDB getInstance(Context context){
         if(leiWeatherDB==null){
             leiWeatherDB=new LeiWeatherDB(context);
         }
@@ -116,7 +116,7 @@ public class LeiWeatherDB {
     /*
      *从数据库中取出某市的County信息
      */
-    public List<County> load(int cityId){
+    public List<County> loadCounty(int cityId){
         List<County> list=new ArrayList<County>();
         Cursor cursor=db.query("County",null,"city_id=?",
                 new String[]{String.valueOf(cityId)},null,null,null );
