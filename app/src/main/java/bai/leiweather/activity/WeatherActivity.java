@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import bai.leiweather.R;
+import bai.leiweather.service.AutoUpdateWeather;
 import bai.leiweather.util.HttpCallbackListener;
 import bai.leiweather.util.HttpUtil;
 import bai.leiweather.util.Utility;
@@ -117,6 +118,8 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         temp1Text.setText(prefs.getString("temp1",""));
         currentTempText.setText(prefs.getString("current_temp",""));
         weatherDespText.setText(prefs.getString("weather_desp",""));
+        Intent intent=new Intent(this, AutoUpdateWeather.class);
+        startService(intent);
     }
 
     @Override

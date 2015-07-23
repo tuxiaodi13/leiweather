@@ -4,20 +4,23 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/tudilogo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="bai.leiweather.activity.ChooseAreaActivity"
-            android:label="leiWeather">
+            android:label="小蕾天气">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.WeatherActivity">
-
         </activity>
+        <service android:name=".service.AutoUpdateWeather">
+        </service>
+        <receiver android:name=".receiver.AlarmReceiver">
+        </receiver>
     </application>
 
 
