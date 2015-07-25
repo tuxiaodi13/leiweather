@@ -19,7 +19,7 @@
         </activity>
         <activity android:name=".activity.ChooseAreaActivity">
         </activity>
-        <service android:name=".service.AutoUpdateWeather">
+        <service android:name="bai.leiweather.service.AutoUpdateWeather">
         </service>
         <receiver android:name=".receiver.AlarmReceiver">
         </receiver>

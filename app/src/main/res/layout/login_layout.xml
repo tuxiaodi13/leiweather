@@ -22,7 +22,8 @@
         android:hint="电话号码后四位"
         android:inputType="textPassword"
         android:layout_alignTop="@+id/login"
-        android:layout_alignStart="@+id/login" />
+        android:layout_alignStart="@+id/login"
+        />
     <CheckBox
         android:id="@+id/remember_password"
         android:layout_width="wrap_content"

@@ -1,8 +1,7 @@
 package bai.leiweather.util;
 
-import android.os.Message;
-
-import org.apache.http.HttpConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -11,9 +10,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Baiyaozhong on 2015/7/20.
+ * Created by Baiyaozhong on 2015/7/24.
  */
-public class HttpUtil {
+public class HttpUtilForBitmap {
     public static void setHttpRequest(final String address,final HttpCallbackListener listener){
         new Thread(new Runnable() {
             @Override
@@ -26,20 +25,13 @@ public class HttpUtil {
                     connection.setConnectTimeout(8000);
                     connection.setReadTimeout(8000);
                     InputStream in=connection.getInputStream();
-                    BufferedReader reader=new BufferedReader(new InputStreamReader(in));
-                    StringBuilder response=new StringBuilder();
-                    String line;
-                    while ((line=reader.readLine())!=null){
-                        response.append(line);
-                    }
+                    Bitmap bitmap=BitmapFactory.decodeStream(in);
                     if (listener!=null){
-                        listener.onFinish(response.toString());
+                        listener.onFinish(bitmap);
                     }
-                }catch (Exception e){
-                    if(listener!=null){
-                        listener.onError(e);
-                    }
-                }finally {
+                } catch (Exception e){
+                        e.printStackTrace();
+                } finally {
                     if(listener!=null){
                         connection.disconnect();
                     }
@@ -48,4 +40,3 @@ public class HttpUtil {
         }).start();
     }
 }
-

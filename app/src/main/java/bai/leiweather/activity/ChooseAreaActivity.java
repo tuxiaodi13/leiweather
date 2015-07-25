@@ -1,8 +1,10 @@
 package bai.leiweather.activity;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -180,6 +182,8 @@ public class ChooseAreaActivity extends Activity {
                     });
                 }
             }
+            @Override
+            public void onFinish(Bitmap bitmap){};
 
 
             @Override

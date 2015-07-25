@@ -3,12 +3,14 @@ package bai.leiweather.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import bai.leiweather.R;
@@ -25,16 +27,25 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
     private TextView cityNameText;
     //显示发布时间
     private TextView publishText;
-    //显示当前日期
-    private TextView currentDateText;
     //显示天气情况
     private TextView weatherDespText;
     private TextView temp1Text;
     private TextView currentTempText;
+    private TextView windSpeedText;
+    private TextView humidityText;
+    private TextView tomorrowDateText;
+    private TextView tomorrowTempText;
+    private TextView tomorrowWeatherDespText;
+    private TextView thirdDateText;
+    private TextView thirdTempText;
+    private TextView thirdWeatherDespText;
+    private ImageView weatherImageView;
+
     //刷新按钮
     private Button refreshButton;
     //选择城市按钮
     private Button selectCityButton;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -44,10 +55,18 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         //初始化控件
         cityNameText=(TextView)findViewById(R.id.city_name);
         publishText=(TextView)findViewById(R.id.publish_text);
-        currentDateText=(TextView)findViewById(R.id.current_date);
         weatherDespText=(TextView)findViewById(R.id.weather_desp);
         temp1Text=(TextView)findViewById(R.id.temp1);
         currentTempText=(TextView)findViewById(R.id.current_temp);
+        windSpeedText=(TextView)findViewById(R.id.wind_speed);
+        humidityText=(TextView)findViewById( R.id.humidity);
+        tomorrowDateText=(TextView)findViewById(R.id.tomorrow_date);
+        tomorrowTempText=(TextView)findViewById(R.id.tomorrow_temp);
+        tomorrowWeatherDespText=(TextView)findViewById(R.id.tomorrow_weatherdesp);
+        thirdDateText=(TextView)findViewById(R.id.third_date);
+        thirdTempText=(TextView)findViewById(R.id.third_temp);
+        thirdWeatherDespText=(TextView)findViewById(R.id.third_weatherdesp);
+        weatherImageView=(ImageView)findViewById(R.id.weather_image);
         refreshButton=(Button)findViewById(R.id.refresh);
         selectCityButton=(Button)findViewById(R.id.select_city);
         refreshButton.setOnClickListener(this);
@@ -95,6 +114,8 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
                     });
                 }
             }
+            @Override
+            public void onFinish(Bitmap bitmap){}
 
             @Override
             public void onError(Exception e) {
@@ -112,11 +133,64 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
      */
     private void showWeather(){
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        String publishTime=prefs.getString("publish_time", "").substring(8,10);
         cityNameText.setText(prefs.getString("city_name",""));
-        publishText.setText("发布时间:" + prefs.getString("publish_time", ""));
-        currentDateText.setText("现在时间:"+prefs.getString("current_date", ""));
+        publishText.setText("今天" +publishTime+ ":00发布");
         temp1Text.setText(prefs.getString("temp1",""));
-        currentTempText.setText(prefs.getString("current_temp",""));
+        currentTempText.setText(prefs.getString("current_temp","")+"°");
+        windSpeedText.setText(prefs.getString("wind_speed",""));
+        humidityText.setText("湿度"+"   "+prefs.getString("humidity",""));
+        tomorrowTempText.setText(prefs.getString("tomorrow_temp",""));
+        tomorrowWeatherDespText.setText(prefs.getString("tomorrow_weatherdesp",""));
+        tomorrowDateText.setText(prefs.getString("tomorrow_date",""));
+        thirdDateText.setText(prefs.getString("third_date",""));
+        thirdTempText.setText(prefs.getString("third_temp",""));
+        thirdWeatherDespText.setText(prefs.getString("third_weatherdesp",""));
+        String weatherDesp=prefs.getString("weather_desp","");
+        switch(weatherDesp){
+            case "雷阵雨":
+            case "雷雨":
+                weatherImageView.setBackgroundResource(R.drawable.thundershower);
+                break;
+            case "晴":
+                weatherImageView.setBackgroundResource(R.drawable.sunny);
+                break;
+            case "阴":
+            case "多云":
+                weatherImageView.setBackgroundResource(R.drawable.cloud);
+                break;
+            case "多云转晴":
+                weatherImageView.setBackgroundResource(R.drawable.cloud_sunny);
+                break;
+            case "晴转多云":
+                weatherImageView.setBackgroundResource(R.drawable.sunny_cloud);
+            case "大雨":
+                weatherImageView.setBackgroundResource(R.drawable.bigrain);
+            case "中雨":
+            case "小雨":
+                weatherImageView.setBackgroundResource(R.drawable.rain);
+            case "阵雨":
+                weatherImageView.setBackgroundResource(R.drawable.shower);
+                break;
+            case "阵雨转阴":
+                break;
+            case "大雪":
+                weatherImageView.setBackgroundResource(R.drawable.bigsnow);
+                break;
+            case "中雪":
+                weatherImageView.setBackgroundResource(R.drawable.midsnow);
+                break;
+            case "小雪":
+                weatherImageView.setBackgroundResource(R.drawable.smallsnow);
+                break;
+            case "hail":
+                weatherImageView.setBackgroundResource(R.drawable.hailstone);
+                break;
+
+            default:
+                break;
+
+        }
         weatherDespText.setText(prefs.getString("weather_desp",""));
         Intent intent=new Intent(this, AutoUpdateWeather.class);
         startService(intent);

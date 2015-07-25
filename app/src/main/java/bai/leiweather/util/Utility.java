@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -92,12 +93,20 @@ public class Utility {
             JSONObject jsonObject=new JSONObject( removeUnvalid(response,"weather_callback("));
             JSONObject weatherInfo=jsonObject.getJSONObject("weatherinfo");
             String cityName=weatherInfo.getString("city");
-            String weatherCode=weatherInfo.getString ("cityid");
+            String weatherCode=weatherInfo.getString("cityid");
             String temp1=weatherInfo.getString("temp1");
             String currentTemp=weatherInfo.getString("temp");
             String weatherDesp=weatherInfo.getString("weather1");
             String publishTime=weatherInfo.getString("date");
-            saveWeatherInfo(context,cityName,weatherCode,temp1,currentTemp,weatherDesp,publishTime);
+            String humidity=weatherInfo.getString("sd");
+            String windSpeed=weatherInfo.getString("fx1")+weatherInfo.getString("fl1");
+            String tomorrowTemp=weatherInfo.getString("temp2");
+            String tomorrowWeatherDesp=weatherInfo.getString("weather2");
+            String thirdTemp=weatherInfo.getString("temp3");
+            String thirdWeatherDesp=weatherInfo.getString("weather3");
+            saveWeatherInfo(context,cityName,weatherCode,temp1,currentTemp,weatherDesp,publishTime,
+                             humidity,windSpeed,tomorrowTemp,tomorrowWeatherDesp,thirdTemp,
+                    thirdWeatherDesp);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -106,17 +115,33 @@ public class Utility {
      *将解析完的天气数据保存到SharedPreferences文件中。
      */
     public static void saveWeatherInfo(Context context,String cityName,String weatherCode,
-                                       String temp1,String currentTemp,String weatherDesp,String publishTime){
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒", Locale.CHINA);
+                                       String temp1,String currentTemp,String weatherDesp,
+                                       String publishTime,String humidity,String windSpeed,
+                                       String tomorrowTemp,String tomorrowWeatherDesp,
+                                       String thirdTemp,String thirdWeatherDesp){
+        SimpleDateFormat sdf=new SimpleDateFormat("dd E", Locale.CHINA);
         SharedPreferences.Editor editor= PreferenceManager.getDefaultSharedPreferences(context).edit();
-        editor.putBoolean("city_selected",true);
+        editor.putBoolean("city_selected", true);
         editor.putString("city_name", cityName);
         editor.putString("weather_code", weatherCode);
         editor.putString("weather_desp", weatherDesp);
         editor.putString("temp1",temp1);
         editor.putString("current_temp",currentTemp);
         editor.putString("publish_time",publishTime);
-        editor.putString("current_date",sdf.format(new Date()));
+        editor.putString("humidity",humidity);
+        editor.putString("wind_speed",windSpeed);
+        editor.putString("tomorrow_temp", tomorrowTemp);
+        editor.putString("tomorrow_weatherdesp",tomorrowWeatherDesp);
+        //获取明天的日期。
+        Calendar calendar=Calendar.getInstance();
+        calendar.roll(Calendar.DAY_OF_MONTH, 1);
+        editor.putString("tomorrow_date", sdf.format(calendar.getTime()));
+        editor.putString("third_temp",thirdTemp);
+        editor.putString("third_weatherdesp",thirdWeatherDesp);
+        //获取后天的日期。
+        calendar.roll(Calendar.DAY_OF_MONTH,1);
+        editor.putString("third_date",sdf.format(calendar.getTime()));
+
         editor.commit();
     }
     /*

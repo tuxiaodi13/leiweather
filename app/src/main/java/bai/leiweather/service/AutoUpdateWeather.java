@@ -1,15 +1,21 @@
 package bai.leiweather.service;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.RemoteViews;
 
+import bai.leiweather.R;
 import bai.leiweather.receiver.AlarmReceiver;
 import bai.leiweather.util.HttpCallbackListener;
 import bai.leiweather.util.HttpUtil;
@@ -29,12 +35,14 @@ public class AutoUpdateWeather extends Service {
             @Override
             public void run() {
                 updateWeather();
+                sendNotification();
+                Log.d("121","service is run");
             }
-        });
+        }).start();
         AlarmManager manager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        long triggerAtTime= SystemClock.elapsedRealtime()+8*60*60*1000;
+        long triggerAtTime= SystemClock.elapsedRealtime()+30*1000;
         Intent i=new Intent(this,AlarmReceiver.class);
-        PendingIntent pi=PendingIntent.getService(this, 0, i, 0);
+        PendingIntent pi=PendingIntent.getBroadcast(this, 0, i, 0);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,pi);
         return super.onStartCommand(intent,flags,startId);
     }
@@ -48,7 +56,11 @@ public class AutoUpdateWeather extends Service {
         HttpUtil.setHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
-                Utility.handleWeatherResponse(AutoUpdateWeather.this,response);
+                Utility.handleWeatherResponse(AutoUpdateWeather.this, response);
+            }
+
+            @Override
+            public void onFinish(Bitmap bitmap) {
             }
 
             @Override
@@ -57,5 +69,28 @@ public class AutoUpdateWeather extends Service {
             }
         });
 
+    }
+    /*
+     *发送通知
+     */
+    private void sendNotification(){
+        NotificationManager manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        Notification notification=new Notification(R.mipmap.tudi_notify,"小蕾，天气又更新啦！",
+                System.currentTimeMillis());
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        //获得天气数据
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        String cityName=prefs.getString("city_name", "");
+        String currentTemp=prefs.getString("current_temp", "")+"°";
+        String weatherDesp=prefs.getString("weather_desp","");
+        String temp=prefs.getString("temp1","");
+        //自定义界面。
+        RemoteViews contentView=new RemoteViews(getPackageName(),R.layout.notify_layout);
+        contentView.setTextViewText(R.id.notify_cityname,cityName);
+        contentView.setTextViewText(R.id.nofity_currenttemp,currentTemp);
+        contentView.setTextViewText(R.id.notify_temp,temp);
+        contentView.setTextViewText(R.id.notify_weatherdesp,weatherDesp);
+        notification.contentView=contentView;
+        manager.notify(1,notification);
     }
 }
