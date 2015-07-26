@@ -4,38 +4,18 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#F0FFFF">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#708069">
         <TextView
             android:id="@+id/city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
             android:textColor="#292421"
-            android:textSize="24sp"/>
-        <Button
-            android:id="@+id/select_city"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@mipmap/house"
-            />
-        <Button
-            android:id="@+id/refresh"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:background="@mipmap/refresh" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#708069">
-
+            android:textSize="30sp"/>
         <TextView
             android:id="@+id/publish_text"
             android:layout_width="wrap_content"
@@ -95,7 +75,6 @@
                         android:textColor="#FFF"
                         android:textSize="15sp"/>
 
-
                     <TextView
                         android:id="@+id/temp1"
                         android:layout_width="wrap_content"
@@ -106,15 +85,33 @@
                         android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#F0FFF0"/>
+                android:layout_height="100dp"
+
+                android:id="@+id/note_layout"
+                >
+                <ImageView
+                    android:id="@+id/note_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@mipmap/laugh"/>
+                <TextView
+                    android:id="@+id/note_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="20sp"
+                    android:textColor="#CCFF99"/>
+            </LinearLayout>
+
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
+                android:layout_gravity="center">
                 <TableRow>
                     <TextView
                         android:id="@+id/tomorrow_date"
@@ -157,20 +154,30 @@
                         android:textSize="15sp"/>
                 </TableRow>
             </TableLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-                <ImageView
-                    android:id="@+id/note_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/note_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
+
         </LinearLayout>
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#708069">
+
+        <Button
+            android:id="@+id/refresh"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@mipmap/refresh"
+            android:layout_marginLeft="130dp"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/select_city"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/house"
+            android:layout_marginLeft="50dp"
+           />
+    </LinearLayout>
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -36,11 +37,10 @@ public class AutoUpdateWeather extends Service {
             public void run() {
                 updateWeather();
                 sendNotification();
-                Log.d("121","service is run");
             }
         }).start();
         AlarmManager manager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        long triggerAtTime= SystemClock.elapsedRealtime()+30*1000;
+        long triggerAtTime= SystemClock.elapsedRealtime()+8*60*60*1000;
         Intent i=new Intent(this,AlarmReceiver.class);
         PendingIntent pi=PendingIntent.getBroadcast(this, 0, i, 0);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,pi);
@@ -77,7 +77,11 @@ public class AutoUpdateWeather extends Service {
         NotificationManager manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         Notification notification=new Notification(R.mipmap.tudi_notify,"小蕾，天气又更新啦！",
                 System.currentTimeMillis());
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        //设置点击后自动取消，但这个方法经过测试不管用。
+        notification.flags =Notification.FLAG_AUTO_CANCEL;
+        //设置声音
+        notification.defaults=Notification.DEFAULT_SOUND;
+
         //获得天气数据
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         String cityName=prefs.getString("city_name", "");

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -11,7 +14,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.security.spec.ECField;
+import java.util.logging.Handler;
 
 import bai.leiweather.R;
 import bai.leiweather.service.AutoUpdateWeather;
@@ -39,7 +46,11 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
     private TextView thirdDateText;
     private TextView thirdTempText;
     private TextView thirdWeatherDespText;
+    private TextView noteText;
     private ImageView weatherImageView;
+    private LinearLayout noteLayout;
+    //用来播放声音
+    private MediaPlayer mediaPlayer;
 
     //刷新按钮
     private Button refreshButton;
@@ -66,16 +77,26 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         thirdDateText=(TextView)findViewById(R.id.third_date);
         thirdTempText=(TextView)findViewById(R.id.third_temp);
         thirdWeatherDespText=(TextView)findViewById(R.id.third_weatherdesp);
+        noteText=(TextView)findViewById(R.id.note_text);
         weatherImageView=(ImageView)findViewById(R.id.weather_image);
+        noteLayout=(LinearLayout)findViewById(R.id.note_layout);
         refreshButton=(Button)findViewById(R.id.refresh);
         selectCityButton=(Button)findViewById(R.id.select_city);
         refreshButton.setOnClickListener(this);
         selectCityButton.setOnClickListener(this);
-
+        //完成MediaPlayer的初始化。
+        mediaPlayer=MediaPlayer.create(this,R.raw.sound_laugh);
+        try{
+            mediaPlayer.prepare();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        noteText.setText("听说今天很适合学习啊");
         String countyCode=getIntent().getStringExtra("county_code");
         if(!TextUtils.isEmpty(countyCode)){
             //有县级代号就去查询该县的天气
             publishText.setText("同步中");
+            noteLayout.setVisibility(View.INVISIBLE);
             queryWeatherCode(countyCode);
         }else{
             showWeather();
@@ -94,18 +115,18 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         HttpUtil.setHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
-                if("countyCode".equals(type)){
-                    if(!TextUtils.isEmpty(response)){
+                if ("countyCode".equals(type)) {
+                    if (!TextUtils.isEmpty(response)) {
                         //从服务器中取出天气代号
-                        String[] array=response.split("\\|");
-                        if(array!=null&&array.length==2){
-                            String weatherCode=array[1];
+                        String[] array = response.split("\\|");
+                        if (array != null && array.length == 2) {
+                            String weatherCode = array[1];
                             queryWeatherInfo(weatherCode);
                         }
                     }
-                }else if("weatherCode".equals(type)){
+                } else if ("weatherCode".equals(type)) {
                     //处理从服务器中返回的天气信息
-                    Utility.handleWeatherResponse(WeatherActivity.this,response);
+                    Utility.handleWeatherResponse(WeatherActivity.this, response);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -114,8 +135,10 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
                     });
                 }
             }
+
             @Override
-            public void onFinish(Bitmap bitmap){}
+            public void onFinish(Bitmap bitmap) {
+            }
 
             @Override
             public void onError(Exception e) {
@@ -192,6 +215,8 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
 
         }
         weatherDespText.setText(prefs.getString("weather_desp",""));
+        noteLayout.setVisibility(View.VISIBLE);
+        //启动自动更新天气的服务
         Intent intent=new Intent(this, AutoUpdateWeather.class);
         startService(intent);
     }
@@ -200,9 +225,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.refresh:
-                SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
-                String currentWeatherCode=prefs.getString("weather_code","");
-                queryWeatherInfo(currentWeatherCode);
+                mediaPlayer.start();
                 break;
             case R.id.select_city:
                 Intent intent=new Intent(WeatherActivity.this,ChooseAreaActivity.class);
@@ -213,6 +236,13 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
             default:
                 break;
         }
-
+    }
+    @Override//活动销毁时，同时释放MediaPlayer资源。
+    public void onDestroy(){
+        super.onDestroy();
+        if(mediaPlayer!=null){
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
     }
 }
