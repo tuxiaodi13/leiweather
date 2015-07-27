@@ -23,7 +23,7 @@ import bai.leiweather.model.Province;
 public class Utility {
 
     /*
-     *½âÎöºÍ´¦Àí·şÎñÆ÷·µ»ØµÄÊ¡·İÊı¾İ
+     *è§£æå’Œå¤„ç†æœåŠ¡å™¨è¿”å›çš„çœä»½æ•°æ®
      */
     public synchronized static boolean handleProvincesResponse(LeiWeatherDB leiWeatherDB,String response) {
         if (!TextUtils.isEmpty(response)) {
@@ -42,7 +42,7 @@ public class Utility {
         return false;
     }
     /*
-     *½âÎöºÍ´¦Àí´Ó·şÎñÆ÷·µ»ØµÄ³ÇÊĞÊı¾İ
+     *è§£æå’Œå¤„ç†ä»æœåŠ¡å™¨è¿”å›çš„åŸå¸‚æ•°æ®
      */
     public synchronized static boolean handleCityResponse(LeiWeatherDB leiWeatherDB,
                                                           String response,int provinceId){
@@ -63,7 +63,7 @@ public class Utility {
         return false;
     }
     /*
-     *½âÎöºÍ´¦Àí´Ó·şÎñÆ÷·µ»ØµÄÏØ¼¶Êı¾İ
+     *è§£æå’Œå¤„ç†ä»æœåŠ¡å™¨è¿”å›çš„å¿çº§æ•°æ®
      */
     public synchronized static boolean handleCountyResponse(LeiWeatherDB leiWeatherDB,
                                                             String response,int cityId){
@@ -84,12 +84,12 @@ public class Utility {
         return false;
     }
     /*
-     *½âÎö·şÎñÆ÷·µ»ØµÄJSONÊı¾İ£¬²¢½«½âÎö³öÀ´µÄÊı¾İ±£´æµ½±¾µØ
+     *è§£ææœåŠ¡å™¨è¿”å›çš„JSONæ•°æ®ï¼Œå¹¶å°†è§£æå‡ºæ¥çš„æ•°æ®ä¿å­˜åˆ°æœ¬åœ°
      */
     public static void handleWeatherResponse(Context context,String response){
 
         try{
-            //removeUnvalidÓÃÀ´ÒÆ³ıµôJSONÊı¾İÖĞµÄÎŞÓÃ×Ö¶Î¡£
+            //removeUnvalidç”¨æ¥ç§»é™¤æ‰JSONæ•°æ®ä¸­çš„æ— ç”¨å­—æ®µã€‚
             JSONObject jsonObject=new JSONObject( removeUnvalid(response,"weather_callback("));
             JSONObject weatherInfo=jsonObject.getJSONObject("weatherinfo");
             String cityName=weatherInfo.getString("city");
@@ -112,7 +112,7 @@ public class Utility {
         }
     }
     /*
-     *½«½âÎöÍêµÄÌìÆøÊı¾İ±£´æµ½SharedPreferencesÎÄ¼şÖĞ¡£
+     *å°†è§£æå®Œçš„å¤©æ°”æ•°æ®ä¿å­˜åˆ°SharedPreferencesæ–‡ä»¶ä¸­ã€‚
      */
     public static void saveWeatherInfo(Context context,String cityName,String weatherCode,
                                        String temp1,String currentTemp,String weatherDesp,
@@ -132,20 +132,20 @@ public class Utility {
         editor.putString("wind_speed",windSpeed);
         editor.putString("tomorrow_temp", tomorrowTemp);
         editor.putString("tomorrow_weatherdesp",tomorrowWeatherDesp);
-        //»ñÈ¡Ã÷ÌìµÄÈÕÆÚ¡£
+        //å¾—åˆ°æ˜å¤©çš„æ—¥æœŸã€‚
         Calendar calendar=Calendar.getInstance();
         calendar.roll(Calendar.DAY_OF_MONTH, 1);
         editor.putString("tomorrow_date", sdf.format(calendar.getTime()));
         editor.putString("third_temp",thirdTemp);
         editor.putString("third_weatherdesp",thirdWeatherDesp);
-        //»ñÈ¡ºóÌìµÄÈÕÆÚ¡£
+        //å¾—åˆ°åå¤©çš„æ—¥æœŸ
         calendar.roll(Calendar.DAY_OF_MONTH,1);
         editor.putString("third_date",sdf.format(calendar.getTime()));
 
         editor.commit();
     }
     /*
-     *Èô·µ»ØµÄJSONÊı¾İÇ°ÃæÓĞÒ»Ğ©²»ĞèÒªµÄ×Ö¶Î£¬ÔòÓÃ´Ëº¯ÊıÒÆ³ıÎŞÓÃ×Ö·û
+     *è‹¥è¿”å›çš„JSONæ•°æ®å‰é¢æœ‰ä¸€äº›ä¸éœ€è¦çš„å­—æ®µï¼Œåˆ™ç”¨æ­¤å‡½æ•°ç§»é™¤æ— ç”¨å­—ç¬¦
      */
     private static String removeUnvalid(String response,String start){
         if(response==null){

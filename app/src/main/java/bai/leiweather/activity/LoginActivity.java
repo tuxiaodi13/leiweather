@@ -24,7 +24,7 @@ import bai.leiweather.util.HttpUtilForBitmap;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
-    //³õÊ¼»¯¸÷¿Ø¼ş
+    //åˆå§‹åŒ–å„æ§ä»¶
     private EditText userNameEdit;
     private EditText telNumEdit;
     private CheckBox rememberPass;
@@ -48,7 +48,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         imageView.setImageDrawable(searchDrawable);
         startUpAnimation();
         imageView.setOnClickListener(this);
-        //¼ì²éprefsÖĞÊÇ·ñ´æÓĞÊı¾İ£¬Èç¹ûÓĞ¾Í½«´æ´¢µÄÊı¾İÌî³ä¡£
+        //æ£€æŸ¥prefsä¸­æ˜¯å¦å­˜æœ‰æ•°æ®ï¼Œå¦‚æœæœ‰å°±å°†å­˜å‚¨çš„æ•°æ®å¡«å……ã€‚
         prefs= PreferenceManager.getDefaultSharedPreferences(this);
         boolean isRemember=prefs.getBoolean("remember_password",false);
         if(isRemember){
@@ -83,7 +83,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         login();
     }
     /*
-     *µÇÂ½
+     *ç™»é™†
      */
     private void login(){
         String username=userNameEdit.getText().toString();
@@ -92,7 +92,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         if (username.equals("leilei")&&(telnum.equals("3269")||telnum.equals("9692"))){
 
             editor=prefs.edit();
-            //Èç¹ûÊäÈëÃÜÂëÕıÈ·£¬ÇÒ¸´Ñ¡¿ò±»Ñ¡ÖĞ£¬Ôò½«Êı¾İ±£´æµ½SharedPreferences£¬·ñÔòÇå³ıSharedPreferences.
+            //å¦‚æœè¾“å…¥å¯†ç æ­£ç¡®ï¼Œä¸”å¤é€‰æ¡†è¢«é€‰ä¸­ï¼Œåˆ™å°†æ•°æ®ä¿å­˜åˆ°SharedPreferencesï¼Œå¦åˆ™æ¸…é™¤SharedPreferences.
             if(rememberPass.isChecked()){
                 editor.putString("user_name",username);
                 editor.putString("tel_num", telnum);
@@ -105,7 +105,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             startActivity(intent);
             finish();
         }else {
-            Toast.makeText(LoginActivity.this,"²»¶Ô£¡",Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this,"ä¸å¯¹ï¼",Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -54,7 +54,7 @@ public class ChooseAreaActivity extends Activity {
         super.onCreate(savedInstanceState);
         isFromWeatherActivity=getIntent().getBooleanExtra("from_weatherActivity",false);
         SharedPreferences prfs= PreferenceManager.getDefaultSharedPreferences(this);
-        //±ØĞëÑ¡ÖĞ³ÇÊĞ£¬ÇÒ²»ÊÇ´ÓWeatherActivityÌø×ª¹ıÀ´£¬´Ë´¦²ÅÄÜÄ¬ÈÏÌø×ªµ½WeahtherActivity.
+        //å¿…é¡»é€‰ä¸­åŸå¸‚ï¼Œä¸”ä¸æ˜¯ä»WeatherActivityè·³è½¬è¿‡æ¥ï¼Œæ­¤å¤„æ‰èƒ½é»˜è®¤è·³è½¬åˆ°WeahtherActivity.
         if(prfs.getBoolean("city_selected",false)&&!isFromWeatherActivity){
             Intent intent=new Intent(this,WeatherActivity.class);
             startActivity(intent);
@@ -90,10 +90,7 @@ public class ChooseAreaActivity extends Activity {
         });
     }
     /*
-     *
-     *
-     *
-     * ²éÑ¯È«¹úËùÓĞµÄÊ¡£¬Êı¾İ¿âÓĞ¾Í´ÓÊı¾İ¿â²é£¬Êı¾İ¿âÃ»ÓĞ¾Í´Ó·şÎñÆ÷²é
+     *  æŸ¥è¯¢å…¨å›½æ‰€æœ‰çš„çœï¼Œæ•°æ®åº“æœ‰å°±ä»æ•°æ®åº“æŸ¥ï¼Œæ•°æ®åº“æ²¡æœ‰å°±ä»æœåŠ¡å™¨æŸ¥
      */
     private void queryProvinces(){
         provinceList=leiWeatherDB.loadProvinces();
@@ -104,14 +101,14 @@ public class ChooseAreaActivity extends Activity {
             }
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
-            titleText.setText("ÖĞ¹ú");
+            titleText.setText("ä¸­å›½");
             currentLevel=LEVEL_PROVINCE;
         }else{
             queryFromServer(null,"Province");
         }
     }
     /*
-     *²éÑ¯Ä³Ê¡µÄËùÓĞÊĞ£¬Êı¾İ¿âÓĞ¾Í´ÓÊı¾İ¿â²é£¬Êı¾İ¿âÃ»ÓĞ¾Í´Ó·şÎñÆ÷²é
+     *æŸ¥è¯¢æŸçœçš„æ‰€æœ‰å¸‚ï¼Œæ•°æ®åº“æœ‰å°±ä»æ•°æ®åº“æŸ¥ï¼Œæ•°æ®åº“æ²¡æœ‰å°±ä»æœåŠ¡å™¨æŸ¥
      */
     private void queryCities(){
         cityList=leiWeatherDB.loadCity(selectedProvince.getId());
@@ -129,7 +126,7 @@ public class ChooseAreaActivity extends Activity {
         }
     }
     /*
-     *²éÑ¯Ä³ÊĞµÄËùÓĞÏØ£¬Èç¹ûÊı¾İ¿âÓĞ¾Í´ÓÊı¾İ¿â²é£¬Êı¾İ¿âÃ»ÓĞ¾Í´Ó·şÎñÆ÷²é
+     *æŸ¥è¯¢æŸå¸‚çš„æ‰€æœ‰å¿ï¼Œå¦‚æœæ•°æ®åº“æœ‰å°±ä»æ•°æ®åº“æŸ¥ï¼Œæ•°æ®åº“æ²¡æœ‰å°±ä»æœåŠ¡å™¨æŸ¥
      */
     private void queryCounties(){
         countyList=leiWeatherDB.loadCounty(selectedCity.getId());
@@ -147,7 +144,7 @@ public class ChooseAreaActivity extends Activity {
         }
     }
     /*
-     *´Ó·şÎñÆ÷²éÑ¯Ê¡ÊĞÏØĞÅÏ¢
+     *ä»æœåŠ¡å™¨æŸ¥è¯¢çœå¸‚å¿ä¿¡æ¯
      */
     private void queryFromServer(String code,final String type){
         String address;
@@ -169,7 +166,7 @@ public class ChooseAreaActivity extends Activity {
 
                 }
                 if(result){
-                    //Í¨¹ırunOnUIThread()·½·¨»Øµ½Ö÷Ïß³Ì´¦ÀíÂß¼­
+                    //é€šè¿‡runOnUIThread()æ–¹æ³•å›åˆ°ä¸»çº¿ç¨‹å¤„ç†é€»è¾‘
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -201,7 +198,7 @@ public class ChooseAreaActivity extends Activity {
         });
     }
     /*
-     *²¶»ñback¼ü£¬¸ù¾İµ±Ç°¼¶±ğ£¬ÅĞ¶Ï°´ÍË³öÓ¦¸ÃÊÇ·µ»ØÊĞ£¬Ê¡ÁĞ±í»¹ÊÇÍË³ö
+     *æ•è·backé”®ï¼Œæ ¹æ®å½“å‰çº§åˆ«ï¼Œåˆ¤æ–­æŒ‰é€€å‡ºåº”è¯¥æ˜¯è¿”å›å¸‚ï¼Œçœåˆ—è¡¨è¿˜æ˜¯é€€å‡º
      */
     @Override
     public void onBackPressed(){

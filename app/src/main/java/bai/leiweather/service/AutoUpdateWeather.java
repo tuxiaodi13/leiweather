@@ -47,7 +47,7 @@ public class AutoUpdateWeather extends Service {
         return super.onStartCommand(intent,flags,startId);
     }
     /*
-     *ºóÌ¨×Ô¶¯¸üĞÂÌìÆø,½«×îĞÂµÄÌìÆøĞÅÏ¢×Ô¶¯¸üĞÂ´æ´¢µ½SharedPreferencesÖĞ
+     *åå°è‡ªåŠ¨æ›´æ–°å¤©æ°”,å°†æœ€æ–°çš„å¤©æ°”ä¿¡æ¯è‡ªåŠ¨æ›´æ–°å­˜å‚¨åˆ°SharedPreferencesä¸­
      */
     private void updateWeather(){
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
@@ -71,24 +71,24 @@ public class AutoUpdateWeather extends Service {
 
     }
     /*
-     *·¢ËÍÍ¨Öª
+     *å‘é€é€šçŸ¥
      */
     private void sendNotification(){
         NotificationManager manager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        Notification notification=new Notification(R.mipmap.tudi_notify,"Ğ¡ÀÙ£¬ÌìÆøÓÖ¸üĞÂÀ²£¡",
+        Notification notification=new Notification(R.mipmap.tudi_notify,"å°è•¾ï¼Œå¤©æ°”åˆæ›´æ–°å•¦ï¼",
                 System.currentTimeMillis());
-        //ÉèÖÃµã»÷ºó×Ô¶¯È¡Ïû£¬µ«Õâ¸ö·½·¨¾­¹ı²âÊÔ²»¹ÜÓÃ¡£
+        //è®¾ç«‹æ­¤æ ‡è®°ï¼Œç”¨æˆ·ç‚¹å‡»é€šçŸ¥å°±ä¼šè‡ªåŠ¨å–æ¶ˆï¼Œä½†è¿™ä¸ªæ–¹æ³•ä¸ç®¡ç”¨
         notification.flags =Notification.FLAG_AUTO_CANCEL;
-        //ÉèÖÃÉùÒô
+        //è®¾ç½®é€šçŸ¥å£°éŸ³
         notification.defaults=Notification.DEFAULT_SOUND;
 
-        //»ñµÃÌìÆøÊı¾İ
+        //ä»ShaPreferencesè¯»å–è¦åœ¨é€šçŸ¥ç•Œé¢ä¸Šæ˜¾ç¤ºçš„ä¿¡æ¯
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         String cityName=prefs.getString("city_name", "");
-        String currentTemp=prefs.getString("current_temp", "")+"¡ã";
+        String currentTemp=prefs.getString("current_temp", "")+"Â°";
         String weatherDesp=prefs.getString("weather_desp","");
         String temp=prefs.getString("temp1","");
-        //×Ô¶¨Òå½çÃæ¡£
+        //è‡ªå®šä¹‰é€šçŸ¥å¸ƒå±€
         RemoteViews contentView=new RemoteViews(getPackageName(),R.layout.notify_layout);
         contentView.setTextViewText(R.id.notify_cityname,cityName);
         contentView.setTextViewText(R.id.nofity_currenttemp,currentTemp);

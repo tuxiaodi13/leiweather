@@ -30,11 +30,11 @@ import bai.leiweather.util.Utility;
  * Created by Baiyaozhong on 2015/7/21.
  */
 public class WeatherActivity extends Activity implements View.OnClickListener{
-    //ÏÔÊ¾µØ·½Ãû×Ö
+    //æ˜¾ç¤ºåœ°å
     private TextView cityNameText;
-    //ÏÔÊ¾·¢²¼Ê±¼ä
+    //å‘å¸ƒæ—¥æœŸ
     private TextView publishText;
-    //ÏÔÊ¾ÌìÆøÇé¿ö
+    //å¤©æ°”ä¿¡æ¯
     private TextView weatherDespText;
     private TextView temp1Text;
     private TextView currentTempText;
@@ -49,12 +49,12 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
     private TextView noteText;
     private ImageView weatherImageView;
     private LinearLayout noteLayout;
-    //ÓÃÀ´²¥·ÅÉùÒô
+    //æ’­æ”¾éŸ³ä¹
     private MediaPlayer mediaPlayer;
 
-    //Ë¢ĞÂ°´Å¥
+    //æ’­æ”¾æŒ‰é’®
     private Button refreshButton;
-    //Ñ¡Ôñ³ÇÊĞ°´Å¥
+    //é€‰æ‹©åŸå¸‚æŒ‰é’®
     private Button selectCityButton;
 
 
@@ -63,7 +63,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.weather_layout);
-        //³õÊ¼»¯¿Ø¼ş
+        //åˆå§‹åŒ–æ§ä»¶
         cityNameText=(TextView)findViewById(R.id.city_name);
         publishText=(TextView)findViewById(R.id.publish_text);
         weatherDespText=(TextView)findViewById(R.id.weather_desp);
@@ -84,18 +84,18 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         selectCityButton=(Button)findViewById(R.id.select_city);
         refreshButton.setOnClickListener(this);
         selectCityButton.setOnClickListener(this);
-        //Íê³ÉMediaPlayerµÄ³õÊ¼»¯¡£
+        //MediaPlayeråˆå§‹åŒ–
         mediaPlayer=MediaPlayer.create(this,R.raw.sound_laugh);
         try{
             mediaPlayer.prepare();
         }catch (Exception e){
             e.printStackTrace();
         }
-        noteText.setText("ÌıËµ½ñÌìºÜÊÊºÏÑ§Ï°°¡");
+        noteText.setText("å¬è¯´ä»Šå¤©å¾ˆé€‚åˆå­¦ä¹ å•Š");
         String countyCode=getIntent().getStringExtra("county_code");
         if(!TextUtils.isEmpty(countyCode)){
-            //ÓĞÏØ¼¶´úºÅ¾ÍÈ¥²éÑ¯¸ÃÏØµÄÌìÆø
-            publishText.setText("Í¬²½ÖĞ");
+            //æœ‰å¿çº§ä»£å·å°±å»æŸ¥è¯¢è¯¥å¿å¤©æ°”ã€‚
+            publishText.setText("åŒæ­¥ä¸­");
             noteLayout.setVisibility(View.INVISIBLE);
             queryWeatherCode(countyCode);
         }else{
@@ -117,7 +117,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
             public void onFinish(String response) {
                 if ("countyCode".equals(type)) {
                     if (!TextUtils.isEmpty(response)) {
-                        //´Ó·şÎñÆ÷ÖĞÈ¡³öÌìÆø´úºÅ
+                        //ä»æœåŠ¡å™¨ä¸­å¾—åˆ°å¤©æ°”ä»£å·
                         String[] array = response.split("\\|");
                         if (array != null && array.length == 2) {
                             String weatherCode = array[1];
@@ -125,7 +125,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
                         }
                     }
                 } else if ("weatherCode".equals(type)) {
-                    //´¦Àí´Ó·şÎñÆ÷ÖĞ·µ»ØµÄÌìÆøĞÅÏ¢
+                    //å¤„ç†ä»æœåŠ¡å™¨è¿”å›çš„å¤©æ°”ä¿¡æ¯
                     Utility.handleWeatherResponse(WeatherActivity.this, response);
                     runOnUiThread(new Runnable() {
                         @Override
@@ -145,24 +145,24 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        publishText.setText("Í¬²½Ê§°Ü");
+                        publishText.setText("åŒæ­¥å¤±è´¥");
                     }
                 });
             }
         });
     }
     /*
-     *´ÓSharedPreferensÎÄ¼şÖĞ¶ÁÈ¡´æ´¢µÄÌìÆøĞÅÏ¢£¬²¢ÏÔÊ¾¡£
+     *ä»SharedPreferencesæ–‡ä»¶è¯»å–å­˜å‚¨çš„å¤©æ°”ä¿¡æ¯ï¼Œå¹¶æ˜¾ç¤ºã€‚
      */
     private void showWeather(){
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         String publishTime=prefs.getString("publish_time", "").substring(8,10);
         cityNameText.setText(prefs.getString("city_name",""));
-        publishText.setText("½ñÌì" +publishTime+ ":00·¢²¼");
+        publishText.setText("ä»Šå¤©" +publishTime+ ":00å‘å¸ƒ");
         temp1Text.setText(prefs.getString("temp1",""));
-        currentTempText.setText(prefs.getString("current_temp","")+"¡ã");
+        currentTempText.setText(prefs.getString("current_temp","")+"Â°");
         windSpeedText.setText(prefs.getString("wind_speed",""));
-        humidityText.setText("Êª¶È"+"   "+prefs.getString("humidity",""));
+        humidityText.setText("æ¹¿åº¦"+"   "+prefs.getString("humidity",""));
         tomorrowTempText.setText(prefs.getString("tomorrow_temp",""));
         tomorrowWeatherDespText.setText(prefs.getString("tomorrow_weatherdesp",""));
         tomorrowDateText.setText(prefs.getString("tomorrow_date",""));
@@ -171,42 +171,43 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         thirdWeatherDespText.setText(prefs.getString("third_weatherdesp",""));
         String weatherDesp=prefs.getString("weather_desp","");
         switch(weatherDesp){
-            case "À×ÕóÓê":
-            case "À×Óê":
+            case "é›·é˜µé›¨":
+            case "é›·ç”µ":
                 weatherImageView.setBackgroundResource(R.drawable.thundershower);
                 break;
-            case "Çç":
+            case "æ™´":
                 weatherImageView.setBackgroundResource(R.drawable.sunny);
                 break;
-            case "Òõ":
-            case "¶àÔÆ":
+            case "é˜´":
+            case "å¤šäº‘":
                 weatherImageView.setBackgroundResource(R.drawable.cloud);
                 break;
-            case "¶àÔÆ×ªÇç":
+            case "å¤šäº‘è½¬æ™´":
                 weatherImageView.setBackgroundResource(R.drawable.cloud_sunny);
                 break;
-            case "Çç×ª¶àÔÆ":
+            case "æ™´è½¬å¤šäº‘":
                 weatherImageView.setBackgroundResource(R.drawable.sunny_cloud);
-            case "´óÓê":
+            case "å¤§é›¨":
+            case "å¤§åˆ°æš´é›¨":
                 weatherImageView.setBackgroundResource(R.drawable.bigrain);
-            case "ÖĞÓê":
-            case "Ğ¡Óê":
+            case "ä¸­é›¨":
+            case "å°é›¨":
                 weatherImageView.setBackgroundResource(R.drawable.rain);
-            case "ÕóÓê":
+            case "é˜µé›¨":
                 weatherImageView.setBackgroundResource(R.drawable.shower);
                 break;
-            case "ÕóÓê×ªÒõ":
+            case "æµ®å°˜":
                 break;
-            case "´óÑ©":
+            case "å¤§é›ª":
                 weatherImageView.setBackgroundResource(R.drawable.bigsnow);
                 break;
-            case "ÖĞÑ©":
+            case "ä¸­é›ª":
                 weatherImageView.setBackgroundResource(R.drawable.midsnow);
                 break;
-            case "Ğ¡Ñ©":
+            case "å°é›ª":
                 weatherImageView.setBackgroundResource(R.drawable.smallsnow);
                 break;
-            case "hail":
+            case "å†°é›¹":
                 weatherImageView.setBackgroundResource(R.drawable.hailstone);
                 break;
 
@@ -216,7 +217,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         }
         weatherDespText.setText(prefs.getString("weather_desp",""));
         noteLayout.setVisibility(View.VISIBLE);
-        //Æô¶¯×Ô¶¯¸üĞÂÌìÆøµÄ·şÎñ
+        //å¯åŠ¨è‡ªåŠ¨æ›´æ–°å¤©æ°”ä»¥åŠé€šçŸ¥çš„æœåŠ¡ã€‚
         Intent intent=new Intent(this, AutoUpdateWeather.class);
         startService(intent);
     }
@@ -237,7 +238,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
                 break;
         }
     }
-    @Override//»î¶¯Ïú»ÙÊ±£¬Í¬Ê±ÊÍ·ÅMediaPlayer×ÊÔ´¡£
+    @Override//åœ¨æ´»åŠ¨é”€æ¯æ—¶å°†MediaPlayerçš„èµ„æºé‡Šæ”¾
     public void onDestroy(){
         super.onDestroy();
         if(mediaPlayer!=null){

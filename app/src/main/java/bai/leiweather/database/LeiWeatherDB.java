@@ -17,11 +17,11 @@ import bai.leiweather.model.Province;
  */
 public class LeiWeatherDB {
     /*
-     *Êı¾İ¿âÃû
+     *æ•°æ®åº“å
      */
     public static final String DB_NAME="lei_weather";
     /*
-     *Êı¾İ¿â°æ±¾
+     *æ•°æ®åº“ç‰ˆæœ¬
      */
     public static final int VERSION=1;
     private static LeiWeatherDB leiWeatherDB;
@@ -32,7 +32,7 @@ public class LeiWeatherDB {
         db=leiWeatherOpenHelper.getWritableDatabase();
     }
     /*
-     *»ñÈ¡LeiWeatherDBµÄÊµÀı
+     *è·å–LeiWeatherDBçš„å®ä¾‹
      */
     public synchronized static LeiWeatherDB getInstance(Context context){
         if(leiWeatherDB==null){
@@ -42,7 +42,7 @@ public class LeiWeatherDB {
     }
 
     /*
-     *½«ProvinceÊµÀı´æ´¢µ½Êı¾İ¿â
+     *å°†Provinceå®ä¾‹å­˜å‚¨åˆ°æ•°æ®åº“
   */
     public void saveProvince(Province province){
         if(province!=null){
@@ -53,7 +53,7 @@ public class LeiWeatherDB {
         }
     }
     /*
-     *´ÓÊı¾İ¿â¶ÁÈ¡È«¹úËùÓĞÊ¡·İ
+     *ä»æ•°æ®åº“è¯»å–å…¨å›½æ‰€æœ‰çœä»½
      */
     public List<Province> loadProvinces(){
         List<Province> list=new ArrayList<Province>();
@@ -70,7 +70,7 @@ public class LeiWeatherDB {
         return list;
     }
     /*
-     *½«CityÊµÀı´æ´¢µ½Êı¾İ¿â
+     *å°†Cityå®ä¾‹å­˜å‚¨åˆ°æ•°æ®åº“
      */
     public void saveCity(City city){
         if(city!=null){
@@ -82,7 +82,7 @@ public class LeiWeatherDB {
         }
     }
     /*
-     *´ÓÊı¾İ¿âÖĞ¶ÁÈ¡Ä³Ê¡µÄËùÓĞCityĞÅÏ¢¡£
+     *ä»æ•°æ®åº“ä¸­è¯»å–æŸçœçš„æ‰€æœ‰Cityä¿¡æ¯ã€‚
      */
     public List<City> loadCity(int provinceId){
         List<City> list=new ArrayList<City>();
@@ -102,7 +102,7 @@ public class LeiWeatherDB {
         return list;
     }
     /*
-     *½«CountyÊµÀı´æ´¢µ½Êı¾İ¿â
+     *ä»æ•°æ®åº“ä¸­è¯»å–æŸçœçš„æ‰€æœ‰Cityä¿¡æ¯ã€‚
      */
     public void saveCounty(County county){
         if(county!=null){
@@ -114,7 +114,7 @@ public class LeiWeatherDB {
         }
     }
     /*
-     *´ÓÊı¾İ¿âÖĞÈ¡³öÄ³ÊĞµÄCountyĞÅÏ¢
+     *ä»æ•°æ®åº“ä¸­å–å‡ºæŸå¸‚çš„Countyä¿¡æ¯
      */
     public List<County> loadCounty(int cityId){
         List<County> list=new ArrayList<County>();
